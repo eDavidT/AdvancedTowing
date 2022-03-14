@@ -510,8 +510,11 @@ SA_Can_Attach_Tow_Ropes = {
 };
 
 SA_Take_Tow_Ropes_Action = {
-	private ["_vehicle","_canTakeTowRopes"];
+	private ["_vehicle","_canTakeTowRopes","_hasRope","_items"];
 	_vehicle = cursorTarget;
+	_items = uniformItems player + vestItems player + backpackItems player;
+	_hasRope = "Exile_Item_Rope" in _items;
+	
 	if([_vehicle] call SA_Can_Take_Tow_Ropes) then {
 	
 		_canTakeTowRopes = true;
@@ -530,6 +533,11 @@ SA_Take_Tow_Ropes_Action = {
 					_canTakeTowRopes = false;
 				};
 			};
+		};
+		
+		if(!_hasRope) then {
+			["You must have rope in your inventory to tow",false] call SA_Hint;
+			_canTakeTowRopes = false;
 		};
 	
 		if(_canTakeTowRopes) then {
