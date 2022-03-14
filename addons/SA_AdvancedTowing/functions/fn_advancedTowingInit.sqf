@@ -542,6 +542,7 @@ SA_Take_Tow_Ropes_Action = {
 	
 		if(_canTakeTowRopes) then {
 			[_vehicle,player] call SA_Take_Tow_Ropes;
+			player removeItem "Exile_Item_Rope";
 		};
 	
 	};
@@ -588,6 +589,7 @@ SA_Put_Away_Tow_Ropes_Action = {
 	
 		if(_canPutAwayTowRopes) then {
 			[_vehicle,player] call SA_Put_Away_Tow_Ropes;
+			player addItem "Exile_Item_Rope";
 		};
 		
 	};
