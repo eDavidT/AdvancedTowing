@@ -565,7 +565,7 @@ SA_Can_Take_Tow_Ropes = {
 };
 
 SA_Put_Away_Tow_Ropes_Action = {
-	private ["_vehicle","_canPutAwayTowRopes"];
+	private ["_vehicle","_canPutAwayTowRopes","_playerPos","_ropeHolder"];
 	_vehicle = cursorTarget;
 	if([_vehicle] call SA_Can_Put_Away_Tow_Ropes) then {
 	
@@ -586,15 +586,19 @@ SA_Put_Away_Tow_Ropes_Action = {
 				};
 			};
 		};
-		
-		if!(player canAdd "Exile_Item_Rope") then {
-			["Not enough space in your inventory for the tow rope",false] call SA_Hint;
-			_canPutAwayTowRopes = false;
-		};
 	
 		if(_canPutAwayTowRopes) then {
 			[_vehicle,player] call SA_Put_Away_Tow_Ropes;
-			player addItem "Exile_Item_Rope";
+			
+			if!(player canAdd "Exile_Item_Rope") then {
+				_playerPos = getPos player;
+				_ropeHolder = createVehicle ["groundweaponholder", getPosATL player, [], 0, "CAN_COLLIDE"];
+				_ropeHolder addItemCargo ["Exile_Item_Rope",1];
+				["No space for rope in your inventory. It has been dropped at your feet.",false] call SA_Hint;
+			}else{
+				["Tow rope has been returned to your inventory.",true] call SA_Hint;
+				player addItem "Exile_Item_Rope";
+			};
 		};
 		
 	};
