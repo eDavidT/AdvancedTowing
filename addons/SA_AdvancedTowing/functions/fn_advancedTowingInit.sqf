@@ -586,6 +586,11 @@ SA_Put_Away_Tow_Ropes_Action = {
 				};
 			};
 		};
+		
+		if!(player canAdd "Exile_Item_Rope") then {
+			["Not enough space in your inventory for the tow rope",false] call SA_Hint;
+			_canPutAwayTowRopes = false;
+		};
 	
 		if(_canPutAwayTowRopes) then {
 			[_vehicle,player] call SA_Put_Away_Tow_Ropes;
